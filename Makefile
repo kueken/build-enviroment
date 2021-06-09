@@ -32,6 +32,12 @@ endif
 ifeq ($(MACHINEBUILD),gbx34k)
 METAQT=meta-qt5.8
 endif
+ifeq ($(MACHINEBUILD),osmio4k)
+METAQT=meta-qt5.14
+endif
+ifeq ($(MACHINEBUILD),osmio4kplus)
+METAQT=meta-qt5.14
+endif
 
 BBLAYERS ?= \
 	$(CURDIR)/openembedded-core/meta \
@@ -43,6 +49,7 @@ BBLAYERS ?= \
 	$(CURDIR)/meta-openembedded/meta-webserver \
 	$(CURDIR)/meta-oe-alliance/meta-oe \
 	$(CURDIR)/$(METAQT) \
+	$(CURDIR)/meta-oe-alliance/meta-brands/meta-abcom \
 	$(CURDIR)/meta-oe-alliance/meta-brands/meta-airdigital \
 	$(CURDIR)/meta-oe-alliance/meta-brands/meta-amiko \
 	$(CURDIR)/meta-oe-alliance/meta-brands/meta-ax \
@@ -272,7 +279,9 @@ MACHINEBUILD=force4
 else ifeq ($(MACHINEBUILD),lunix4k)
 MACHINE=dags72604
 MACHINEBUILD=lunix4k
-
+else ifeq ($(MACHINEBUILD),dual)
+MACHINE=dagsmv200
+MACHINEBUILD=dual
 
 else ifeq ($(MACHINEBUILD),classm)
 MACHINE=odinm7
@@ -664,6 +673,9 @@ MACHINEBUILD=zgemmah7
 else ifeq ($(MACHINEBUILD),zgemmah6)
 MACHINE=h6
 MACHINEBUILD=zgemmah6
+else ifeq ($(MACHINEBUILD),zgemmah82h)
+MACHINE=h8
+MACHINEBUILD=zgemmah82h
 else ifeq ($(MACHINEBUILD),zgemmah9s)
 MACHINE=h9
 MACHINEBUILD=zgemmah9s
@@ -697,6 +709,27 @@ MACHINEBUILD=zgemmah102h
 else ifeq ($(MACHINEBUILD),zgemmah102s)
 MACHINE=h10
 MACHINEBUILD=zgemmah102s
+else ifeq ($(MACHINEBUILD),zgemmah11s)
+MACHINE=h11
+MACHINEBUILD=zgemmah11s
+else ifeq ($(MACHINEBUILD),zgemmah112h)
+MACHINE=h11
+MACHINEBUILD=zgemmah112h
+else ifeq ($(MACHINEBUILD),zgemmahzeros)
+MACHINE=hzero
+MACHINEBUILD=zgemmahzeros
+else ifeq ($(MACHINEBUILD),zgemmah9combose)
+MACHINE=h9combose
+MACHINEBUILD=zgemmah9combose
+else ifeq ($(MACHINEBUILD),zgemmah92hse)
+MACHINE=h9se
+MACHINEBUILD=zgemmah92hse
+else ifeq ($(MACHINEBUILD),zgemmah9sse)
+MACHINE=h9se
+MACHINEBUILD=zgemmah9sse
+else ifeq ($(MACHINEBUILD),zgemmai55se)
+MACHINE=i55se
+MACHINEBUILD=zgemmai55se
 
 
 else ifeq ($(MACHINEBUILD),mbmicro)
@@ -937,6 +970,27 @@ MACHINEBUILD=axashisc4k
 else ifeq ($(MACHINEBUILD),dinobot4kelite)
 MACHINE=u56
 MACHINEBUILD=dinobot4kelite
+else ifeq ($(MACHINEBUILD),viper4kv20)
+MACHINE=u57
+MACHINEBUILD=viper4kv20
+else ifeq ($(MACHINEBUILD),viper4kv30)
+MACHINE=u57
+MACHINEBUILD=viper4kv30
+else ifeq ($(MACHINEBUILD),protek4kx2)
+MACHINE=u57
+MACHINEBUILD=protek4kx2
+else ifeq ($(MACHINEBUILD),iziboxelite4k)
+MACHINE=u57
+MACHINEBUILD=iziboxelite4k
+else ifeq ($(MACHINEBUILD),dinobot4ktwin)
+MACHINE=u57
+MACHINEBUILD=dinobot4ktwin
+else ifeq ($(MACHINEBUILD),hitube4kpro)
+MACHINE=u57
+MACHINEBUILD=hitube4kpro
+else ifeq ($(MACHINEBUILD),hitube4kplus)
+MACHINE=u57
+MACHINEBUILD=hitube4kplus
 
 else ifeq ($(MACHINEBUILD),dinoboth265)
 MACHINE=u41
@@ -959,9 +1013,15 @@ MACHINEBUILD=jdhdduo
 else ifeq ($(MACHINEBUILD),vipertwin)
 MACHINE=u42
 MACHINEBUILD=vipertwin
+else ifeq ($(MACHINEBUILD),vipersingle)
+MACHINE=u42
+MACHINEBUILD=vipersingle
 else ifeq ($(MACHINEBUILD),turing)
 MACHINE=u43
 MACHINEBUILD=turing
+else ifeq ($(MACHINEBUILD),axashistwinplus)
+MACHINE=u45
+MACHINEBUILD=axashistwinplus
 
 
 else ifeq ($(MACHINEBUILD),clap4k)
@@ -974,6 +1034,30 @@ MACHINEBUILD=maxytecmulti
 else ifeq ($(MACHINEBUILD),anadolmulti)
 MACHINE=multibox
 MACHINEBUILD=anadolmulti
+else ifeq ($(MACHINEBUILD),anadolmultitwin)
+MACHINE=multibox
+MACHINEBUILD=anadolmultitwin
+else ifeq ($(MACHINEBUILD),axmulticombo)
+MACHINE=multibox
+MACHINEBUILD=axmulticombo
+else ifeq ($(MACHINEBUILD),axmultitwin)
+MACHINE=multibox
+MACHINEBUILD=axmultitwin
+else ifeq ($(MACHINEBUILD),novaler4k)
+MACHINE=multibox
+MACHINEBUILD=novaler4k
+
+else ifeq ($(MACHINEBUILD),maxytecmultise)
+MACHINE=multiboxse
+MACHINEBUILD=maxytecmultise
+
+else ifeq ($(MACHINEBUILD),abpulse4k)
+MACHINE=pulse4k
+MACHINEBUILD=abpulse4k
+else ifeq ($(MACHINEBUILD),abpulse4kmini)
+MACHINE=pulse4k
+MACHINEBUILD=abpulse4kmini
+
 
 endif
 
@@ -1083,6 +1167,8 @@ $(CURDIR)/site.conf:
 	@echo 'BUILD_OPTIMIZATION = "-O2 -pipe"' >> $@
 	@echo 'DL_DIR = "$(DL_DIR)"' >> $@
 	@echo 'INHERIT += "rm_work"' >> $@
+	@echo 'BB_GIT_SHALLOW_DEPTH = "1"' >> $@
+	@echo 'BB_GIT_SHALLOW = "1"' >> $@
 
 BBLAYERS_CONF_HASH := $(call hash, \
 	'BBLAYERS_CONF_VERSION = "5"' \
